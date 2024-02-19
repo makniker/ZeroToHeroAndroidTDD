@@ -1,10 +1,13 @@
 package ru.easycode.zerotoheroandroidtdd
 
 import android.app.Application
+import android.os.Build
+import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,17 +20,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 interface BundleWrapper {
     interface Mutable: Save, Restore {
-        class Base(): Mutable {
-            private lateinit var uiState: UiState
+        class Base(private val bundle: Bundle): Mutable {
             override fun save(uiState: UiState) {
-                this.uiState = uiState
+                bundle.putSerializable("key", uiState)
             }
 
+            @RequiresApi(Build.VERSION_CODES.TIRAMISU)
             override fun restore(): UiState {
-                return uiState
+                return bundle.getSerializable("key", UiState::class.java)!!
             }
         }
     }
@@ -47,7 +51,7 @@ interface LiveDataWrapper {
     fun save(bundleWrapper: BundleWrapper.Save)
 
     class Base : LiveDataWrapper {
-        private val liveData: MutableLiveData<UiState> = MutableLiveData()
+        private val liveData: MutableLiveData<UiState> = SingleLiveEvent()
         override fun update(value: UiState) {
             liveData.value = value
         }
@@ -72,7 +76,7 @@ interface Repository {
     }
 }
 
-interface UiState {
+interface UiState: Serializable {
     fun apply(textView: TextView, button: Button, progressBar: ProgressBar)
     object ShowProgress : UiState {
         override fun apply(textView: TextView, button: Button, progressBar: ProgressBar) {
@@ -110,33 +114,13 @@ class MainViewModel(
     }
 
     fun restore(bundleWrapper: BundleWrapper.Restore) {
-        liveDataWrapper.update(bundleWrapper.restore())
+        val state = bundleWrapper.restore()
+        liveDataWrapper.update(state)
     }
-
-    companion object {
-
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                // Get the Application object from extras
-                val application = checkNotNull(extras[APPLICATION_KEY])
-                // Create a SavedStateHandle for this ViewModel from extras
-                val savedState = (application as MyApp).bundle
-                val model = MainViewModel(LiveDataWrapper.Base(), Repository.Base())
-                if (savedState != null) {
-                    model.restore(savedState)
-                }
-                return model as T
-            }
-        }
-    }
-
 }
 
 
-class MyApp : Application(){
-    var bundle: BundleWrapper.Mutable? = null
+class MyApp : Application() {
+
+    val viewModel = MainViewModel(LiveDataWrapper.Base(), Repository.Base())
 }
