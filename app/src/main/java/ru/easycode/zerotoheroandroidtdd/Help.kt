@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -85,7 +86,7 @@ interface SimpleService {
     suspend fun fetch(@Url url: String): SimpleResponse
 }
 
-data class SimpleResponse(val text: String)
+data class SimpleResponse(@SerializedName("text") val text: String)
 
 interface UiState: Serializable {
     fun apply(textView: TextView, button: Button, progressBar: ProgressBar)
@@ -97,7 +98,7 @@ interface UiState: Serializable {
             button.isEnabled = false
         }
     }
-    class ShowData(private val text: String) : UiState {
+    data class ShowData(private val text: String) : UiState {
         override fun apply(textView: TextView, button: Button, progressBar: ProgressBar) {
             textView.visibility = View.VISIBLE
             textView.text = text
