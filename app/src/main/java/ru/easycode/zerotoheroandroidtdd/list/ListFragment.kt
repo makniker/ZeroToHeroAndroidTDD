@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import ru.easycode.zerotoheroandroidtdd.MyApp
 import ru.easycode.zerotoheroandroidtdd.core.BundleWrapper
+import ru.easycode.zerotoheroandroidtdd.core.ProvideViewModel
 import ru.easycode.zerotoheroandroidtdd.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
@@ -17,7 +17,6 @@ class ListFragment : Fragment() {
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private val adapter = MyAdapter()
-    private var currentList = listOf<CharSequence>()
 
 
     override fun onCreateView(
@@ -29,10 +28,10 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel =
+            (activity as ProvideViewModel).viewModel(ListViewModel::class.java)
         with(binding) {
             recyclerView.adapter = adapter
-            viewModel =
-                (activity?.application as MyApp).viewModelFactory.viewModel(ListViewModel::class.java)
             addButton.setOnClickListener {
                 viewModel.create()
             }
@@ -51,7 +50,6 @@ class ListFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.let {
-            currentList = BundleWrapper.Mutable.Base(it).restore()
             viewModel.restore(BundleWrapper.Mutable.Base(it))
         }
     }

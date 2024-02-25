@@ -6,7 +6,7 @@ interface ClearViewModel {
     fun clear(viewModelClass: Class<out ViewModel>)
     class Base: ClearViewModel {
         override fun clear(viewModelClass: Class<out ViewModel>) {
-            //viewModelClass.getDeclaredMethod("destroy")
+
         }
     }
 }

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".create.CreateFragment"
-    android:id="@+id/createFrameLayout">
+    android:id="@+id/createFrameLayout"
+    android:background="@color/white">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/inputEditText"

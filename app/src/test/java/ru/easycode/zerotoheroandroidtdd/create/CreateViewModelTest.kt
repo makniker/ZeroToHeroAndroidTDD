@@ -6,7 +6,6 @@ import org.junit.Before
 import org.junit.Test
 import ru.easycode.zerotoheroandroidtdd.core.ClearViewModel
 import ru.easycode.zerotoheroandroidtdd.core.Navigation
-import ru.easycode.zerotoheroandroidtdd.core.Screen
 import ru.easycode.zerotoheroandroidtdd.list.FakeListLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.list.ListLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.main.FakeNavigation
@@ -38,14 +37,14 @@ class CreateViewModelTest {
     fun test_add() {
         viewModel.add(text = "exampleText")
         addLiveDataWrapper.checkCalledList(listOf("exampleText"))
-        navigation.checkUpdateCalled(listOf(Screen.Pop))
+        navigation.checkUpdateCalled(listOf(Pop))
         clearViewModel.checkClearCalled(CreateViewModel::class.java)
     }
 
     @Test
     fun test_comeback() {
         viewModel.comeback()
-        navigation.checkUpdateCalled(listOf(Screen.Pop))
+        navigation.checkUpdateCalled(listOf(Pop))
         clearViewModel.checkClearCalled(CreateViewModel::class.java)
     }
 }

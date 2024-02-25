@@ -6,21 +6,19 @@ import ru.easycode.zerotoheroandroidtdd.list.ListLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.list.ListViewModel
 import ru.easycode.zerotoheroandroidtdd.main.MainViewModel
 
-interface ViewModelFactory {
-    fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T
-    fun <T : ViewModel> clear(viewModelClass: Class<T>)
+interface ViewModelFactory: ProvideViewModel, ClearViewModel {
     class Base(private val provideViewModel: ProvideViewModel) : ViewModelFactory {
-        private val list: MutableList<ViewModel> = mutableListOf()
+        private val map: MutableMap<Class<out ViewModel>, ViewModel> = mutableMapOf()
         override fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T {
-            if (list.filterIsInstance(viewModelClass).isEmpty()) {
+            if (!map.containsKey(viewModelClass)) {
                 val vm = provideViewModel.viewModel(viewModelClass)
-                list.add(vm)
+                map[viewModelClass] = vm
             }
-            return list.filterIsInstance(viewModelClass)[0]
+            return map[viewModelClass] as T
         }
 
-        override fun <T : ViewModel> clear(viewModelClass: Class<T>) {
-            list.clear()
+        override fun clear(viewModelClass: Class<out ViewModel>) {
+            map.remove(viewModelClass)
         }
 
     }
@@ -29,10 +27,10 @@ interface ViewModelFactory {
 interface ProvideViewModel {
     fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T
     class Base(
-        private val navigation: Navigation.Mutable,
-        private val liveDataWrapper: ListLiveDataWrapper.All,
         private val clearViewModel: ClearViewModel
     ) : ProvideViewModel {
+        private val navigation = Navigation.Base()
+        private val liveDataWrapper: ListLiveDataWrapper.All = ListLiveDataWrapper.Base()
         override fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T {
             return when (viewModelClass) {
                 (CreateViewModel::class.java) -> {

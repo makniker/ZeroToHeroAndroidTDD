@@ -1,9 +1,7 @@
 package ru.easycode.zerotoheroandroidtdd.core
 
+import androidx.fragment.app.FragmentManager
+
 interface Screen {
-    object Pop : Screen {}
-
-    object CreateScreen : Screen {}
-
-    object ListScreen : Screen {}
+    fun show(manager: FragmentManager)
 }

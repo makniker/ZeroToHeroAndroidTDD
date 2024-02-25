@@ -3,7 +3,7 @@ package ru.easycode.zerotoheroandroidtdd.main
 import org.junit.Before
 import org.junit.Test
 import ru.easycode.zerotoheroandroidtdd.core.Navigation
-import ru.easycode.zerotoheroandroidtdd.core.Screen
+import ru.easycode.zerotoheroandroidtdd.list.ListScreen
 
 class MainViewModelTest {
 
@@ -20,7 +20,7 @@ class MainViewModelTest {
     @Test
     fun test_first_run() {
         viewModel.init(firstRun = true)
-        navigation.checkUpdateCalled(listOf(Screen.ListScreen))
+        navigation.checkUpdateCalled(listOf(ListScreen))
     }
 
     @Test
