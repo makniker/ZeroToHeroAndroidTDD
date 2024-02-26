@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.delete.DeleteFragment"
+    android:orientation="vertical"
+    android:id="@+id/detailsLayout">
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/itemInputEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/itemTextView"
+        android:layout_width="match_parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="delete"/>
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="update"/>
+
+
+
+</LinearLayout>
