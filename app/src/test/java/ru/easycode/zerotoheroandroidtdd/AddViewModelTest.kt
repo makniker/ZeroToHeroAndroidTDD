@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import ru.easycode.zerotoheroandroidtdd.add.AddViewModel
+import ru.easycode.zerotoheroandroidtdd.core.ListLiveDataWrapper
 
 class AddViewModelTest {
 
@@ -79,7 +81,7 @@ private interface FakeClearViewModel : ClearViewModel {
             assertEquals(expected, actual)
         }
 
-        override fun clearViewModel(clasz: Class<out ViewModel>) {
+        override fun clear(clasz: Class<out ViewModel>) {
             order.add(CLEAR)
             actual = clasz
         }

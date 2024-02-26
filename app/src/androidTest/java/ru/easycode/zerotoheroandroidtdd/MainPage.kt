@@ -14,10 +14,7 @@ class MainPage : AbstractPage(R.id.rootLayout) {
 
     fun checkItem(position: Int, text: String) {
         onView(
-            RecyclerViewMatcher(R.id.recyclerView).atPosition(
-                position,
-                R.id.elementTextView
-            )
+            RecyclerViewMatcher(R.id.recyclerView).atPosition(position, R.id.elementTextView)
         ).check(matches(withText(text)))
     }
 }
