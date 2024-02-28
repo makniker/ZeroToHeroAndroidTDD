@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.hamcrest.CoreMatchers.allOf
 
+
 class FoldersListPage {
 
     private val rootId: Int = R.id.foldersRootLayout

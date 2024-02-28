@@ -35,11 +35,9 @@ class ProvideViewModelTest {
 }
 
 private interface FakeProvide : ProvideViewModel {
-
     class Base(
         private val order: Order
     ) : FakeProvide {
-
         override fun <T : ViewModel> viewModel(clasz: Class<T>): T {
             order.add(clasz.simpleName)
             return clasz.getDeclaredConstructor().newInstance()
