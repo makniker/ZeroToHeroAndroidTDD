@@ -1,5 +1,6 @@
 package ru.easycode.zerotoheroandroidtdd.note.create
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -13,6 +14,7 @@ import ru.easycode.zerotoheroandroidtdd.folder.core.FolderLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.folder.details.FolderDetailsScreen
 import ru.easycode.zerotoheroandroidtdd.folder.details.NoteListLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.folder.details.NoteUi
+import ru.easycode.zerotoheroandroidtdd.folder.list.FolderUi
 import ru.easycode.zerotoheroandroidtdd.note.core.NotesRepository
 
 class CreateNoteViewModelTest {
@@ -119,6 +121,10 @@ private interface FakeIncrementFolderLiveDataWrapper : FolderLiveDataWrapper.Inc
 
         override fun increment() {
             order.add(INCREMENT)
+        }
+
+        override fun liveData(): LiveData<FolderUi> {
+            TODO("Not yet implemented")
         }
     }
 }

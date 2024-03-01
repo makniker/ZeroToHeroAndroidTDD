@@ -15,14 +15,12 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = (application as ProvideViewModel).viewModel(MainViewModel::class.java)
+        viewModel = viewModel(MainViewModel::class.java)
         viewModel.init(savedInstanceState == null)
         viewModel.liveData().observe(this) {
             it.show(supportFragmentManager, R.id.container)
         }
     }
 
-    override fun <T : ViewModel> viewModel(clasz: Class<T>): T {
-        TODO("Not yet implemented")
-    }
+    override fun <T : ViewModel> viewModel(clasz: Class<T>): T = (application as ProvideViewModel).viewModel(clasz)
 }

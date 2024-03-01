@@ -5,7 +5,7 @@ import ru.easycode.zerotoheroandroidtdd.main.Screen
 
 object CreateFolderScreen: Screen {
     override fun show(supportFragmentManager: FragmentManager, container: Int) {
-        TODO("Not yet implemented")
+        CreateFolderFragment().show(supportFragmentManager, "create_folder")
     }
 
 }

@@ -1,5 +1,6 @@
 package ru.easycode.zerotoheroandroidtdd.folder.details
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
@@ -7,8 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.easycode.zerotoheroandroidtdd.core.ClearViewModels
+import ru.easycode.zerotoheroandroidtdd.core.LiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.folder.core.FolderLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.folder.edit.EditFolderScreen
+import ru.easycode.zerotoheroandroidtdd.folder.list.FolderUi
 import ru.easycode.zerotoheroandroidtdd.folder.list.FoldersListScreen
 import ru.easycode.zerotoheroandroidtdd.main.Navigation
 import ru.easycode.zerotoheroandroidtdd.note.core.NotesRepository
@@ -23,7 +26,7 @@ class FolderDetailsViewModel(
     private val clear: ClearViewModels,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main
-) : ViewModel() {
+) : ViewModel(), LiveDataWrapper.Read<FolderUi> {
     fun init() {
         viewModelScope.launch(dispatcher) {
             val id = folderLiveDataWrapper.folderId()
@@ -53,4 +56,7 @@ class FolderDetailsViewModel(
         val id = folderLiveDataWrapper.folderId()
         navigation.update(EditFolderScreen(id))
     }
+
+    override fun liveData(): LiveData<FolderUi> = folderLiveDataWrapper.liveData()
+    fun notesLiveData(): LiveData<List<NoteUi>> = liveDataWrapper.liveData()
 }

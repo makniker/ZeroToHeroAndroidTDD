@@ -12,10 +12,10 @@ interface Navigation {
     }
 
     class Base: Mutable {
-        val liveData: LiveData<Screen> = MutableLiveData()
-        override fun liveData(): LiveData<Screen> = liveData
+        val myLiveData: MutableLiveData<Screen> = MutableLiveData()
+        override fun liveData(): LiveData<Screen> = myLiveData
         override fun update(screen: Screen) {
-            TODO()
+            myLiveData.postValue(screen)
         }
     }
 }

@@ -26,7 +26,7 @@ interface FolderListLiveDataWrapper {
             liveData.value = list
         }
 
-        override fun liveData(): LiveData<List<FolderUi>> = liveData()
+        override fun liveData(): LiveData<List<FolderUi>> = liveData
 
     }
 }

@@ -39,7 +39,7 @@ class FolderLiveDataWrapper {
         }
 
         override fun increment() {
-            liveData.value?.notesCount = liveData.value?.notesCount!! - 1
+            liveData.value?.notesCount = liveData.value?.notesCount!! + 1
         }
 
         override fun decrement() {

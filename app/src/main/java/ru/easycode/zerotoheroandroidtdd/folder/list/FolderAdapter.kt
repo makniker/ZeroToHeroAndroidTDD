@@ -1,28 +1,36 @@
 package ru.easycode.zerotoheroandroidtdd.folder.list
 
-import android.view.View
-import android.view.View.OnClickListener
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import ru.easycode.zerotoheroandroidtdd.databinding.FolderItemBinding
 
-class FolderAdapter(private val listener: OnClickListener): ListAdapter<FolderUi, FolderAdapter.FolderUiViewHolder>(DIFF_UTIL) {
-    object DIFF_UTIL {
-
+class FolderAdapter(private val listener: (FolderUi) -> Unit): ListAdapter<FolderUi, FolderAdapter.FolderUiViewHolder>(DIFF_UTIL) {
+    companion object {
+        private val DIFF_UTIL = object : DiffUtil.ItemCallback<FolderUi>() {
+            override fun areItemsTheSame(oldItem: FolderUi, newItem: FolderUi): Boolean = oldItem == newItem
+            override fun areContentsTheSame(oldItem: FolderUi, newItem: FolderUi): Boolean = oldItem.id == newItem.id
+        }
     }
 
-    inner class FolderUiViewHolder(view: View): ViewHolder(view) {
+
+    inner class FolderUiViewHolder(private val binding: FolderItemBinding): ViewHolder(binding.root) {
         fun bind(item: FolderUi) {
-            itemView.setOnClickListener {
-                listener
+            binding.folderTitleTextView.text = item.title
+            binding.folderCountTextView.text = item.notesCount.toString()
+            binding.root.setOnClickListener {
+                listener(item)
             }
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderUiViewHolder {
-        TODO("Not yet implemented")
+        return FolderUiViewHolder(
+            FolderItemBinding.inflate(LayoutInflater.from(parent.context))
+        )
     }
 
     override fun onBindViewHolder(holder: FolderUiViewHolder, position: Int) {

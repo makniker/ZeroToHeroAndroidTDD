@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import ru.easycode.zerotoheroandroidtdd.databinding.FoldersListFragmentBinding
 import ru.easycode.zerotoheroandroidtdd.main.MainActivity
 
-class FolderListFragment: Fragment() {
-    private var _binding : FoldersListFragmentBinding? = null
+class FolderListFragment : Fragment() {
+    private var _binding: FoldersListFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: FolderListViewModel
     private lateinit var adapter: FolderAdapter
@@ -28,7 +28,7 @@ class FolderListFragment: Fragment() {
         viewModel = (activity as MainActivity).viewModel(FolderListViewModel::class.java)
         viewModel.init()
         with(binding) {
-            adapter = FolderAdapter() {
+            adapter = FolderAdapter {
                 viewModel.folderDetails(it)
             }
             foldersRecyclerView.adapter = adapter
@@ -36,7 +36,7 @@ class FolderListFragment: Fragment() {
                 viewModel.addFolder()
             }
             viewModel.liveData().observe(viewLifecycleOwner) {
-                adapter.submitList(it)
+                    adapter.submitList(it)
             }
         }
     }

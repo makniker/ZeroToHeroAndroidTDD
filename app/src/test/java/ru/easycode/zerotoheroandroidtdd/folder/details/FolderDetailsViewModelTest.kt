@@ -1,5 +1,6 @@
 package ru.easycode.zerotoheroandroidtdd.folder.details
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -145,6 +146,10 @@ private interface FakeNoteListLiveDataWrapper : NoteListLiveDataWrapper.UpdateLi
             actual.clear()
             actual.addAll(notes)
             order.add(UPDATE_NOTES_LIVEDATA)
+        }
+
+        override fun liveData(): LiveData<List<NoteUi>> {
+            TODO("Not yet implemented")
         }
 
         override fun check(expected: List<NoteUi>) {

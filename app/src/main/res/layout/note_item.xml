@@ -4,6 +4,4 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:id="@+id/noteTitleTextView"
-    android:textAppearance="@style/TextAppearance.AppCompat.Title">
-
-</TextView>
+    android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
