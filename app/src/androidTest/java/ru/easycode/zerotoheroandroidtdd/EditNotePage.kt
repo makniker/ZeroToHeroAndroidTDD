@@ -18,7 +18,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.android.material.textfield.TextInputEditText
 import org.hamcrest.CoreMatchers.allOf
-/*
+
 class EditNotePage {
 
     private val rootId: Int = R.id.editNoteRootLayout
@@ -77,5 +77,3 @@ class EditNotePage {
         ).perform(click())
     }
 }
-
- */

@@ -14,6 +14,8 @@ import ru.easycode.zerotoheroandroidtdd.main.Navigation
 import ru.easycode.zerotoheroandroidtdd.note.core.NotesRepository
 import ru.easycode.zerotoheroandroidtdd.note.core.Now
 import ru.easycode.zerotoheroandroidtdd.note.create.CreateNoteViewModel
+import ru.easycode.zerotoheroandroidtdd.note.edit.EditNoteViewModel
+import ru.easycode.zerotoheroandroidtdd.note.edit.NoteLiveDataWrapper
 
 interface ProvideViewModel {
     fun <T : ViewModel> viewModel(clasz: Class<T>): T
@@ -48,6 +50,7 @@ interface ProvideViewModel {
         private val folderListLiveDataWrapper = FolderListLiveDataWrapper.Base()
         private val folderLiveDataWrapper = FolderLiveDataWrapper.Base()
         private val noteListLiveDataWrapper = NoteListLiveDataWrapper.Base()
+        private val noteLiveDataWrapper = NoteLiveDataWrapper.Base()
         override fun <T : ViewModel> viewModel(clasz: Class<T>): T {
             return when (clasz) {
                 (MainViewModel::class.java) -> MainViewModel(navigation) as T
@@ -88,6 +91,14 @@ interface ProvideViewModel {
                     clear
                 ) as T
 
+                (EditNoteViewModel::class.java) -> EditNoteViewModel(
+                    folderLiveDataWrapper,
+                    noteLiveDataWrapper,
+                    noteListLiveDataWrapper,
+                    notesRepository,
+                    navigation,
+                    clear
+                ) as T
                 else -> {
                     throw Exception()
                 }

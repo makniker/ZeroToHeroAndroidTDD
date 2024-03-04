@@ -54,7 +54,7 @@ class Task029Test {
         foldersListPage.checkVisibleNow()
         foldersListPage.checkFolder(position = 0, title = "first folder", count = "1")
     }
-/*
+
     @Test
     fun create_folder_create_note_delete_folder() {
         create_folder_create_note()
@@ -168,5 +168,4 @@ class Task029Test {
         folderDetailsPage.checkVisibleNow(title = "first folder", count = "1")
         folderDetailsPage.checkNote(position = 0, title = "new note after delete")
     }
-    */
 }

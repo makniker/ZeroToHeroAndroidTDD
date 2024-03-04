@@ -11,6 +11,7 @@ class NoteListLiveDataWrapper {
     }
     interface Update {
         fun update(noteId: Long, newText: String)
+        fun delete(noteId: Long)
     }
     interface UpdateListAndRead: Read {
         fun update(notes: List<NoteUi>)
@@ -27,7 +28,19 @@ class NoteListLiveDataWrapper {
                 val list = liveData.value!!.toMutableList()
                 val n = list.find { it.id == noteId }
                 n?.let {
+                    list.remove(n)
                     list.add(NoteUi(n.id, newText, n.folderId))
+                }
+                update(list)
+            }
+        }
+
+        override fun delete(noteId: Long) {
+            liveData.value?.let {
+                val list = liveData.value!!.toMutableList()
+                val n = list.find { it.id == noteId }
+                n?.let {
+                    list.remove(n)
                 }
                 update(list)
             }

@@ -1,5 +1,6 @@
 package ru.easycode.zerotoheroandroidtdd.note.edit
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
@@ -7,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.easycode.zerotoheroandroidtdd.core.ClearViewModels
+import ru.easycode.zerotoheroandroidtdd.core.LiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.folder.core.FolderLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.folder.details.FolderDetailsScreen
 import ru.easycode.zerotoheroandroidtdd.folder.details.NoteListLiveDataWrapper
@@ -22,7 +24,7 @@ class EditNoteViewModel(
     private val clear: ClearViewModels,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main
-): ViewModel() {
+): ViewModel(), LiveDataWrapper.Read<String> {
     fun init(noteId: Long) {
         viewModelScope.launch(dispatcher) {
             val note = repository.note(noteId)
@@ -37,6 +39,7 @@ class EditNoteViewModel(
             repository.deleteNote(noteId)
             withContext(dispatcherMain) {
                 folderLiveDataWrapper.decrement()
+                noteListLiveDataWrapper.delete(noteId)
             }
             comeback()
         }
@@ -56,4 +59,6 @@ class EditNoteViewModel(
         clear.clear(EditNoteViewModel::class.java)
         navigation.update(FolderDetailsScreen)
     }
+
+    override fun liveData(): LiveData<String> = noteLiveDataWrapper.liveData()
 }

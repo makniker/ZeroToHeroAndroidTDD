@@ -1,5 +1,6 @@
 package ru.easycode.zerotoheroandroidtdd.folder.edit
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
@@ -7,10 +8,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.easycode.zerotoheroandroidtdd.core.ClearViewModels
+import ru.easycode.zerotoheroandroidtdd.core.LiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.folder.core.FolderLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.folder.core.FoldersRepository
 import ru.easycode.zerotoheroandroidtdd.folder.details.FolderDetailsScreen
 import ru.easycode.zerotoheroandroidtdd.folder.details.FolderDetailsViewModel
+import ru.easycode.zerotoheroandroidtdd.folder.list.FolderUi
 import ru.easycode.zerotoheroandroidtdd.folder.list.FoldersListScreen
 import ru.easycode.zerotoheroandroidtdd.main.Navigation
 
@@ -21,7 +24,7 @@ class EditFolderViewModel(
     private val clear: ClearViewModels,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main
-) : ViewModel() {
+) : ViewModel(), LiveDataWrapper.Read<FolderUi> {
     fun renameFolder(folderId: Long, newName: String) {
         viewModelScope.launch(dispatcher) {
             repository.rename(folderId, newName)
@@ -44,4 +47,6 @@ class EditFolderViewModel(
         clear.clear(EditFolderViewModel::class.java)
         navigation.update(FolderDetailsScreen)
     }
+
+    override fun liveData(): LiveData<FolderUi> = folderLiveDataWrapper.liveData()
 }
